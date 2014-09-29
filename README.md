@@ -17,8 +17,18 @@ Compile
 mvn package
 ```
 Execute. MASS storage system uses KERBEROS authentication method and so you will need to aquire a ticket from the server. Make sure you have activated the product. KERBEROS is a system wide authentication system so it happens outside of the java classes so you might want to automate it using a keytab (see: https://kb.iu.edu/d/aumh).  
+
+To create the keytab (on a mac):
 ```
-kinit replaceme@BIGSTEP.IO
+ktutil -k  ~/mass.kt add -p user@BIGSTEP.IO -e arcfour-hmac-md5 -V 1
+```
+
+To login directly:
+```
+kinit user@BIGSTEP.IO
+```
+
+```
 mvn exec:java -Dexec.mainClass="com.bigstep.HDFSExample" -Djava.security.krb5.kdc=kdc.bigstep.io  -Djava.security.krb5.realm=BIGSTEP.IO -Dexec.args="hdfs://mass.bigstep.io/user/replaceme/file.pub"
 ```
 
